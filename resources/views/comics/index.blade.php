@@ -20,9 +20,14 @@
                 <th scope="row">{{$comic->id}}</th>
                 <td>{{$comic->title}}</td>
                 <td>{{$comic->price}}</td>
-                <td>
-                    <a href="{{route('comics.show', $comic->id)}}" class="btn btn-primary">SHOW</a>
-                    <a href="{{route('comics.delete', $comic->id)}}" class="btn btn-DANGER">DELETE</a>
+                <td class="d-flex">
+                    <a href="{{route('comics.show', $comic->id)}}" class="btn btn-primary me-2">SHOW</a>
+                    <a href="{{route('comics.edit', $comic->id)}}" class="btn btn-dark me-2">EDIT</a>
+                    <form action="{{route('comics.destroy', $comic->id)}}"  method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+                    </form>
 
                 </td>
             </tr>
