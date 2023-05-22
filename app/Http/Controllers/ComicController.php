@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comics;
-
+use App\Http\Requests\StoreComicRequest;
+use App\Http\Requests\UpdateComicRequest;
 use Illuminate\Http\Request;
 
 class ComicController extends Controller
@@ -35,18 +36,10 @@ class ComicController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreComicRequest $request)
     {
 
-        $request->validate([
-            'title' => 'Required | String | max:50',
-            'description' => 'String | nullable | max:65000',
-            'thumb' => 'required| URL',
-            'price' => 'required| Integer | max:500',
-            'sale_date' => 'required',
-            'type' => 'required| String | max:50',
-            'series' => 'required| String | max:50',
-        ]);
+        $request->validated();
 
         $form_data = $request->all();
 
@@ -102,10 +95,10 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateComicRequest $request, $id)
     {
         $comic = Comics::findOrFail($id);
-        $form_data = $request->all();
+        $form_data = $request->validated();
         $comic->update($form_data);
 
         return redirect()->route('comics.show', ['comic' => $comic->id]);
